@@ -1,7 +1,6 @@
 package lotto.controller;
 
-import lotto.domain.Lotto;
-import lotto.domain.LottoStore;
+import lotto.domain.*;
 import lotto.ui.InputView;
 import lotto.ui.OutputView;
 
@@ -14,8 +13,18 @@ public class LottoController {
     public void run() {
         final int payment = InputView.inputPayment();
 
-        final List<Lotto> lottos = lottoStore.generateLottosByPayment(payment);
+        final List<Lotto> userLottos = lottoStore.generateLottosByPayment(payment);
 
-        OutputView.printLottos(lottos);
+        OutputView.printLottos(userLottos);
+
+        final LottoResult lottoResult = InputView.inputLottoResult();
+
+        final LottoResultChecker lottoResultChecker = new LottoResultChecker(lottoResult);
+
+        final WinningResult matchLottosResult = lottoResultChecker.matchLottos(userLottos);
+
+        OutputView.printResults(matchLottosResult);
+
+        OutputView.printPrize(matchLottosResult, payment);
     }
 }

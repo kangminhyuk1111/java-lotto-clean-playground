@@ -47,8 +47,7 @@ public class Lotto {
     private void validateNumberRange(List<Integer> numbers) {
         for (int number : numbers) {
             if (number < MIN_LOTTO_NUMBER || number > MAX_LOTTO_NUMBER) {
-                throw new RuntimeException(
-                        "로또 번호는 1부터 45 사이의 숫자여야 합니다.");
+                throw new RuntimeException("로또 번호는 1부터 45 사이의 숫자여야 합니다.");
             }
         }
     }
