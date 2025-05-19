@@ -25,7 +25,7 @@ public class LottoController {
 
     final LottoResult lottoResult = InputView.inputLottoResult();
 
-    final int bonusBall = InputView.inputBonusBall();
+    final LottoNumber bonusBall = InputView.inputBonusBall();
 
     final LottoResultChecker lottoResultChecker = new LottoResultChecker(lottoResult, bonusBall);
 

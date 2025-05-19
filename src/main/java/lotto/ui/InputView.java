@@ -3,6 +3,7 @@ package lotto.ui;
 import java.util.ArrayList;
 import java.util.List;
 import lotto.domain.Lotto;
+import lotto.domain.LottoNumber;
 import lotto.domain.LottoResult;
 import lotto.util.InputParser;
 
@@ -26,9 +27,9 @@ public class InputView {
     return InputParser.parseLottoResult(sc.nextLine());
   }
 
-  public static int inputBonusBall() {
+  public static LottoNumber inputBonusBall() {
     System.out.println("보너스 볼을 입력해 주세요.");
-    return Integer.parseInt(sc.nextLine());
+    return new LottoNumber(Integer.parseInt(sc.nextLine()));
   }
 
   public static int inputManualLottoCount() {

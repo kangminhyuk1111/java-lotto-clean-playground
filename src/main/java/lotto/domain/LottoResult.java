@@ -11,13 +11,13 @@ public class LottoResult extends Lotto {
   }
 
   public int matchCount(Lotto userLotto) {
-    List<Integer> winningNumbers = this.getNumbers();
-    List<Integer> userNumbers = userLotto.getNumbers();
+    List<LottoNumber> winningNumbers = this.getNumbers();
+    List<LottoNumber> userNumbers = userLotto.getNumbers();
 
-    Set<Integer> winningNumbersSet = new HashSet<>(winningNumbers);
+    Set<LottoNumber> winningNumbersSet = new HashSet<>(winningNumbers);
 
     int count = 0;
-    for (int number : userNumbers) {
+    for (LottoNumber number : userNumbers) {
       if (winningNumbersSet.contains(number)) {
         count++;
       }

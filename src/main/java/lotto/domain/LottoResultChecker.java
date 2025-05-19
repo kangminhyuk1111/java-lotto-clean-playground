@@ -5,9 +5,9 @@ import java.util.List;
 public class LottoResultChecker {
 
   private final LottoResult winningNumbers;
-  private final int bonusBall;
+  private final LottoNumber bonusBall;
 
-  public LottoResultChecker(final LottoResult winningNumbers, final int bonusBall) {
+  public LottoResultChecker(final LottoResult winningNumbers, final LottoNumber bonusBall) {
     this.winningNumbers = winningNumbers;
     this.bonusBall = bonusBall;
   }

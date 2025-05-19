@@ -3,9 +3,12 @@ package lotto.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -13,13 +16,36 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class LottoResultTest {
 
+  private List<Integer> inputNumbers;
+  private List<LottoNumber> expectedLottoNumbers;
+
+  @BeforeEach
+  void setUp() {
+    inputNumbers = new ArrayList<>();
+    expectedLottoNumbers = new ArrayList<>();
+
+    for (int i = 1; i <= 6; i++) {
+      inputNumbers.add(i);
+      expectedLottoNumbers.add(new LottoNumber(i));
+    }
+  }
+
   @Test
   void 로또_결과_객체_생성_테스트() {
-    List<Integer> winningNumbers = Arrays.asList(1, 2, 3, 4, 5, 6);
+    LottoResult lottoResult = new LottoResult(inputNumbers);
 
-    LottoResult lottoResult = new LottoResult(winningNumbers);
+    assertThat(lottoResult.getNumbers()).containsExactlyElementsOf(expectedLottoNumbers);
+  }
 
-    assertThat(lottoResult.getNumbers()).containsExactlyElementsOf(winningNumbers);
+  @Test
+  void 로또_결과_숫자값_비교_테스트() {
+    LottoResult lottoResult = new LottoResult(inputNumbers);
+
+    List<Integer> actualNumbers = lottoResult.getNumbers().stream()
+        .map(LottoNumber::number)
+        .collect(Collectors.toList());
+
+    assertThat(actualNumbers).containsExactlyElementsOf(inputNumbers);
   }
 
   @ParameterizedTest

@@ -18,7 +18,7 @@ class LottoStoreTest {
   void setUp() {
     lottoStore = new LottoStore();
     lottoStore.mergeLottos(List.of(
-        new Lotto(List.of(1,2,3,4,5,6))
+        new Lotto(List.of(1, 2, 3, 4, 5, 6))
     ));
   }
 
@@ -52,10 +52,10 @@ class LottoStoreTest {
   void 생성된_로또_번호는_오름차순으로_정렬되어야_한다() {
     List<Lotto> lottos = lottoStore.generateLottosByPayment(1000);
     Lotto lotto = lottos.get(0);
-    List<Integer> numbers = lotto.getNumbers();
+    List<LottoNumber> numbers = lotto.getNumbers();
 
     for (int i = 0; i < numbers.size() - 1; i++) {
-      assertThat(numbers.get(i)).isLessThan(numbers.get(i + 1));
+      assertThat(numbers.get(i).number()).isLessThan(numbers.get(i + 1).number());
     }
   }
 }

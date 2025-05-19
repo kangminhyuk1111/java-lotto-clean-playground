@@ -15,15 +15,15 @@ import org.junit.jupiter.params.provider.MethodSource;
 class LottoResultCheckerTest {
 
   private final LottoResult lottoResult = new LottoResult(List.of(1, 2, 3, 4, 5, 6));
-  private final int bonusBall = 7;
+  private final LottoNumber bonusBall = new LottoNumber(7);
   private final LottoResultChecker lottoResultChecker = new LottoResultChecker(lottoResult, bonusBall);
 
   @ParameterizedTest
   @MethodSource("provideLottosAndWinningResult")
-  void 여러_로또의_당첨_통계를_확인한다(List<Lotto> userLottos, Map<Rank, Integer> expectedresult) {
+  void 여러_로또의_당첨_통계를_확인한다(List<Lotto> userLottos, Map<Rank, Integer> expectedResult) {
     WinningResult winningResult = lottoResultChecker.matchLottos(userLottos);
 
-    assertThat(winningResult.getWinningResult()).isEqualTo(expectedresult);
+    assertThat(winningResult.getWinningResult()).isEqualTo(expectedResult);
   }
 
   private static Stream<Arguments> provideLottosAndWinningResult() {
