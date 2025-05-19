@@ -17,7 +17,7 @@ public class LottoResult extends Lotto {
     Set<Integer> winningNumbersSet = new HashSet<>(winningNumbers);
 
     int count = 0;
-    for (Integer number : userNumbers) {
+    for (int number : userNumbers) {
       if (winningNumbersSet.contains(number)) {
         count++;
       }

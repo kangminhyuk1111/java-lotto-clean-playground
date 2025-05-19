@@ -1,7 +1,8 @@
 package lotto.ui;
 
+import java.util.Map.Entry;
 import lotto.domain.Lotto;
-import lotto.domain.LottoRank;
+import lotto.domain.Rank;
 import lotto.domain.WinningResult;
 
 import java.util.List;
@@ -19,14 +20,22 @@ public class OutputView {
   public static void printResults(final WinningResult winningResult) {
     System.out.println("\n당첨 통계\n---------");
 
-    Map<LottoRank, Integer> winningStats = winningResult.getWinningStatistics();
+    Map<Rank, Integer> rankStats = winningResult.getWinningResult();
 
-    for (int matchCount = 3; matchCount <= 6; matchCount++) {
-      LottoRank rank = LottoRank.getRankByMatchCount(matchCount);
-      int count = winningStats.getOrDefault(rank, 0);
-      int prize = rank.getPrizeMoney();
+    for (Entry<Rank, Integer> entry : rankStats.entrySet()) {
+      final Rank rank = entry.getKey();
+      final int count = entry.getValue();
 
-      System.out.printf("%d개 일치 (%,d원)- %d개\n", matchCount, prize, count);
+      if (rank == Rank.NONE) {
+        continue;
+      }
+
+      if (rank.isBonusMatch()) {
+        System.out.printf("5개 일치, 보너스 볼 일치 (%,d원)- %d개\n", rank.getPrizeMoney(), count);
+        continue;
+      }
+
+      System.out.printf("%d개 일치 (%,d원)- %d개\n", rank.getMatchCount(), rank.getPrizeMoney(), count);
     }
   }
 

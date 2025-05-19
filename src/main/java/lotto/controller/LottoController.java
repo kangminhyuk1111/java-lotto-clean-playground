@@ -19,12 +19,14 @@ public class LottoController {
 
     final LottoResult lottoResult = InputView.inputLottoResult();
 
-    final LottoResultChecker lottoResultChecker = new LottoResultChecker(lottoResult);
+    final int bonusBall = InputView.inputBonusBall();
 
-    final WinningResult matchLottosResult = lottoResultChecker.matchLottos(userLottos);
+    final LottoResultChecker lottoResultChecker = new LottoResultChecker(lottoResult, bonusBall);
 
-    OutputView.printResults(matchLottosResult);
+    final WinningResult winningResult = lottoResultChecker.matchLottos(userLottos);
 
-    OutputView.printPrize(matchLottosResult, payment);
+    OutputView.printResults(winningResult);
+
+    OutputView.printPrize(winningResult, payment);
   }
 }

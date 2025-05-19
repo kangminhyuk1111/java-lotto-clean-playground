@@ -15,29 +15,31 @@ class WinningResultTest {
   @Test
   void 빈_당첨_결과_생성시_모든_등수가_0으로_초기화된다() {
     WinningResult winningResult = new WinningResult();
-    Map<LottoRank, Integer> statistics = winningResult.getWinningStatistics();
+    Map<Rank, Integer> result = winningResult.getWinningResult();
 
-    assertThat(statistics.get(LottoRank.MISS)).isEqualTo(0);
-    assertThat(statistics.get(LottoRank.ONE)).isEqualTo(0);
-    assertThat(statistics.get(LottoRank.TWO)).isEqualTo(0);
-    assertThat(statistics.get(LottoRank.THREE)).isEqualTo(0);
-    assertThat(statistics.get(LottoRank.FOUR)).isEqualTo(0);
-    assertThat(statistics.get(LottoRank.FIVE)).isEqualTo(0);
-    assertThat(statistics.get(LottoRank.SIX)).isEqualTo(0);
+    assertThat(result.get(Rank.NONE)).isEqualTo(0);
+    assertThat(result.get(Rank.NONE)).isEqualTo(0);
+    assertThat(result.get(Rank.NONE)).isEqualTo(0);
+    assertThat(result.get(Rank.FOURTH)).isEqualTo(0);
+    assertThat(result.get(Rank.THIRD)).isEqualTo(0);
+    assertThat(result.get(Rank.SECOND)).isEqualTo(0);
+    assertThat(result.get(Rank.FIRST)).isEqualTo(0);
   }
 
   @Test
   void 일치_개수_추가시_해당_등수의_카운트가_증가한다() {
     WinningResult winningResult = new WinningResult();
 
-    winningResult.addMatchCount(3);
-    winningResult.addMatchCount(3);
-    winningResult.addMatchCount(6);
+    winningResult.addRank(Rank.getRankByMatchCount(3));
+    winningResult.addRank(Rank.getRankByMatchCount(3));
+    winningResult.addRank(Rank.getRankByMatchCount(6));
 
-    Map<LottoRank, Integer> statistics = winningResult.getWinningStatistics();
+    Map<Rank, Integer> result = winningResult.getWinningResult();
 
-    assertThat(statistics.get(LottoRank.THREE)).isEqualTo(2);
-    assertThat(statistics.get(LottoRank.SIX)).isEqualTo(1);
+    System.out.println(result);
+
+    assertThat(result.get(Rank.FIFTH)).isEqualTo(2);
+    assertThat(result.get(Rank.FIRST)).isEqualTo(1);
   }
 
   @ParameterizedTest
@@ -46,7 +48,7 @@ class WinningResultTest {
     WinningResult winningResult = new WinningResult();
 
     for (int matchCount : matchCounts) {
-      winningResult.addMatchCount(matchCount);
+      winningResult.addRank(Rank.getRankByMatchCount(matchCount));
     }
 
     long actualTotalPrize = winningResult.calculateTotalPrize();
@@ -76,31 +78,32 @@ class WinningResultTest {
   void 특정_등수_카운트_조회_테스트() {
     WinningResult winningResult = new WinningResult();
 
-    winningResult.addMatchCount(3);
-    winningResult.addMatchCount(3);
-    winningResult.addMatchCount(4);
-    winningResult.addMatchCount(6);
+    winningResult.addRank(Rank.getRankByMatchCount(3));
+    winningResult.addRank(Rank.getRankByMatchCount(3));
+    winningResult.addRank(Rank.getRankByMatchCount(4));
+    winningResult.addRank(Rank.getRankByMatchCount(6));
 
-    Map<LottoRank, Integer> statistics = winningResult.getWinningStatistics();
+    Map<Rank, Integer> result = winningResult.getWinningResult();
 
-    assertThat(statistics.get(LottoRank.THREE)).isEqualTo(2);
-    assertThat(statistics.get(LottoRank.FOUR)).isEqualTo(1);
-    assertThat(statistics.get(LottoRank.FIVE)).isEqualTo(0);
-    assertThat(statistics.get(LottoRank.SIX)).isEqualTo(1);
-    assertThat(statistics.get(LottoRank.MISS)).isEqualTo(0);
-    assertThat(statistics.get(LottoRank.ONE)).isEqualTo(0);
-    assertThat(statistics.get(LottoRank.TWO)).isEqualTo(0);
+    assertThat(result.get(Rank.FIFTH)).isEqualTo(2);
+    assertThat(result.get(Rank.FOURTH)).isEqualTo(1);
+    assertThat(result.get(Rank.THIRD)).isEqualTo(0);
+    assertThat(result.get(Rank.SECOND)).isEqualTo(0);
+    assertThat(result.get(Rank.FIRST)).isEqualTo(1);
+    assertThat(result.get(Rank.NONE)).isEqualTo(0);
+    assertThat(result.get(Rank.NONE)).isEqualTo(0);
+    assertThat(result.get(Rank.NONE)).isEqualTo(0);
   }
 
   @Test
   void 모든_등급_통계를_포함하는지_테스트() {
     WinningResult winningResult = new WinningResult();
 
-    Map<LottoRank, Integer> statistics = winningResult.getWinningStatistics();
+    Map<Rank, Integer> result = winningResult.getWinningResult();
 
-    assertThat(statistics).containsKeys(
-        LottoRank.MISS, LottoRank.ONE, LottoRank.TWO,
-        LottoRank.THREE, LottoRank.FOUR, LottoRank.FIVE, LottoRank.SIX
+    assertThat(result).containsKeys(
+        Rank.NONE, Rank.NONE, Rank.NONE,
+        Rank.FOURTH, Rank.THIRD, Rank.SECOND, Rank.FIRST
     );
   }
 }

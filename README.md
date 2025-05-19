@@ -34,3 +34,10 @@
   - LottoResult: 당첨 번호를 가지는 객체 `Lotto`를 상속하여 같은 로또이지만 당첨 결과값이라는 부분이 다름 비교하여 몇개가 맞는지 matchCount를 반환함
   - LottoResultChecker: LottoResult를 기반으로 결과를 반환하도록 함.
   - WinningResult: LottoResultChecker에서 반환한 결과로, 금액 및 통계 계산을 해줌.
+
+## 3단계 - 로또 2등 당첨
+- 2등을 위한 보너스볼을 추첨한다. 
+- 당첨 통계에 2등을 추가한다. 
+  - LottoRank 객체에 2등 당첨의 경우를 추가한다.
+- 2등 당첨 조건은 당첨 번호 5개 일치 + 보너스 볼 일치다.
+  - LottoResult에서 BonusBall이 일치하는지 검사해준다

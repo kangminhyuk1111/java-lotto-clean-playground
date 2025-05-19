@@ -31,6 +31,10 @@ public class Lotto {
     return numbers;
   }
 
+  public boolean isContainBonusBall(final int bonusBall) {
+    return numbers.contains(bonusBall);
+  }
+
   private void validateSize(List<Integer> numbers) {
     if (numbers.size() != LOTTO_SIZE) {
       throw new RuntimeException("로또 번호는 6개여야 합니다.");

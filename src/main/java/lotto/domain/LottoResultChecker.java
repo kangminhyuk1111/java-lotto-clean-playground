@@ -5,20 +5,32 @@ import java.util.List;
 public class LottoResultChecker {
 
   private final LottoResult winningNumbers;
+  private final int bonusBall;
 
-  public LottoResultChecker(final LottoResult winningNumbers) {
+  public LottoResultChecker(final LottoResult winningNumbers, final int bonusBall) {
     this.winningNumbers = winningNumbers;
+    this.bonusBall = bonusBall;
   }
 
   public WinningResult matchLottos(List<Lotto> userLottos) {
     WinningResult winningResult = new WinningResult();
 
     for (Lotto lotto : userLottos) {
-      int count = matchCount(lotto);
-      winningResult.addMatchCount(count);
+      Rank rank = getRankByCount(lotto);
+      winningResult.addRank(rank);
     }
 
     return winningResult;
+  }
+
+  private Rank getRankByCount(final Lotto lotto) {
+    int count = matchCount(lotto);
+
+    if (lotto.isContainBonusBall(bonusBall)) {
+      return Rank.getRankByMatchCount(count, true);
+    }
+
+    return Rank.getRankByMatchCount(count, false);
   }
 
   private int matchCount(Lotto userLotto) {
