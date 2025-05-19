@@ -29,3 +29,8 @@
 - 로또 당첨 번호를 받아 일치한 번호 수에 따라 당첨 결과를 보여준다.
   - 로또 당첨 번호를 체크하는 LottoResultChecker 객체에서 로또 당첨 결과를 반환한다.
   - InputParser를 통해 입력값을 체크한다.
+- 객체 책임
+  - LottoRank: 로또 당첨 등수를 나타내는 Enum으로 miss부터 six까지의 등급을 가짐
+  - LottoResult: 당첨 번호를 가지는 객체 `Lotto`를 상속하여 같은 로또이지만 당첨 결과값이라는 부분이 다름 비교하여 몇개가 맞는지 matchCount를 반환함
+  - LottoResultChecker: LottoResult를 기반으로 결과를 반환하도록 함.
+  - WinningResult: LottoResultChecker에서 반환한 결과로, 금액 및 통계 계산을 해줌.

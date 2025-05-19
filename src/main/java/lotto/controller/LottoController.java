@@ -8,23 +8,23 @@ import java.util.List;
 
 public class LottoController {
 
-    private final LottoStore lottoStore = new LottoStore();
+  private final LottoStore lottoStore = new LottoStore();
 
-    public void run() {
-        final int payment = InputView.inputPayment();
+  public void run() {
+    final int payment = InputView.inputPayment();
 
-        final List<Lotto> userLottos = lottoStore.generateLottosByPayment(payment);
+    final List<Lotto> userLottos = lottoStore.generateLottosByPayment(payment);
 
-        OutputView.printLottos(userLottos);
+    OutputView.printLottos(userLottos);
 
-        final LottoResult lottoResult = InputView.inputLottoResult();
+    final LottoResult lottoResult = InputView.inputLottoResult();
 
-        final LottoResultChecker lottoResultChecker = new LottoResultChecker(lottoResult);
+    final LottoResultChecker lottoResultChecker = new LottoResultChecker(lottoResult);
 
-        final WinningResult matchLottosResult = lottoResultChecker.matchLottos(userLottos);
+    final WinningResult matchLottosResult = lottoResultChecker.matchLottos(userLottos);
 
-        OutputView.printResults(matchLottosResult);
+    OutputView.printResults(matchLottosResult);
 
-        OutputView.printPrize(matchLottosResult, payment);
-    }
+    OutputView.printPrize(matchLottosResult, payment);
+  }
 }
