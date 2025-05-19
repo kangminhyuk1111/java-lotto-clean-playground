@@ -12,7 +12,7 @@ public class LottoResultChecker {
     this.bonusBall = bonusBall;
   }
 
-  public WinningResult matchLottos(List<Lotto> userLottos) {
+  public WinningResult matchLottos(Lottos userLottos) {
     WinningResult winningResult = new WinningResult();
 
     for (Lotto lotto : userLottos) {

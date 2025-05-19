@@ -15,11 +15,11 @@ public class LottoController {
 
     final int manualLottoCount = InputView.inputManualLottoCount();
 
-    final List<Lotto> manualLottos = InputView.inputManualLottos(manualLottoCount);
+    final Lottos manualLottos = InputView.inputManualLottos(manualLottoCount);
 
     lottoStore.mergeLottos(manualLottos);
 
-    final List<Lotto> userLottos = lottoStore.generateLottosByPayment(payment);
+    final Lottos userLottos = lottoStore.generateLottosByPayment(payment);
 
     OutputView.printLottos(userLottos);
 

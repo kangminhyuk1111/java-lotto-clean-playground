@@ -2,15 +2,15 @@ package lotto.ui;
 
 import java.util.Map.Entry;
 import lotto.domain.Lotto;
+import lotto.domain.Lottos;
 import lotto.domain.Rank;
 import lotto.domain.WinningResult;
 
-import java.util.List;
 import java.util.Map;
 
 public class OutputView {
 
-  public static void printLottos(final List<Lotto> lottos) {
+  public static void printLottos(final Lottos lottos) {
     System.out.println("\n" + lottos.size() + "개를 구매했습니다.");
     for (Lotto lotto : lottos) {
       System.out.println(lotto.toString());

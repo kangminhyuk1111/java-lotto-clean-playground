@@ -5,6 +5,7 @@ import java.util.List;
 import lotto.domain.Lotto;
 import lotto.domain.LottoNumber;
 import lotto.domain.LottoResult;
+import lotto.domain.Lottos;
 import lotto.util.InputParser;
 
 import java.util.Scanner;
@@ -37,8 +38,8 @@ public class InputView {
     return Integer.parseInt(sc.nextLine());
   }
 
-  public static List<Lotto> inputManualLottos(final int manualLottoCount) {
-    final List<Lotto> lottos = new ArrayList<>();
+  public static Lottos inputManualLottos(final int manualLottoCount) {
+    final Lottos lottos = new Lottos(new ArrayList<>());
 
     if (manualLottoCount == 0) {
       return lottos;

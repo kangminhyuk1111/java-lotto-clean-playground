@@ -16,11 +16,12 @@ class LottoResultCheckerTest {
 
   private final LottoResult lottoResult = new LottoResult(List.of(1, 2, 3, 4, 5, 6));
   private final LottoNumber bonusBall = new LottoNumber(7);
-  private final LottoResultChecker lottoResultChecker = new LottoResultChecker(lottoResult, bonusBall);
+  private final LottoResultChecker lottoResultChecker = new LottoResultChecker(lottoResult,
+      bonusBall);
 
   @ParameterizedTest
   @MethodSource("provideLottosAndWinningResult")
-  void 여러_로또의_당첨_통계를_확인한다(List<Lotto> userLottos, Map<Rank, Integer> expectedResult) {
+  void 여러_로또의_당첨_통계를_확인한다(Lottos userLottos, Map<Rank, Integer> expectedResult) {
     WinningResult winningResult = lottoResultChecker.matchLottos(userLottos);
 
     assertThat(winningResult.getWinningResult()).isEqualTo(expectedResult);
@@ -53,23 +54,23 @@ class LottoResultCheckerTest {
 
     return Stream.of(
         Arguments.of(
-            List.of(new Lotto(List.of(1, 2, 3, 4, 5, 6))),
+            new Lottos(List.of(new Lotto(List.of(1, 2, 3, 4, 5, 6)))),
             case1
         ),
         Arguments.of(
-            List.of(
+            new Lottos(List.of(
                 new Lotto(List.of(1, 2, 3, 4, 5, 6)),
                 new Lotto(List.of(1, 2, 3, 4, 5, 7)),
                 new Lotto(List.of(1, 2, 3, 4, 7, 8)),
                 new Lotto(List.of(1, 2, 3, 7, 8, 9))
-            ),
+            )),
             case2
         ),
         Arguments.of(
-            List.of(
+            new Lottos(List.of(
                 new Lotto(List.of(7, 8, 9, 10, 11, 12)),
                 new Lotto(List.of(13, 14, 15, 16, 17, 18))
-            ),
+            )),
             case3
         )
     );
@@ -77,12 +78,12 @@ class LottoResultCheckerTest {
 
   @Test
   void 당첨_금액_계산_테스트() {
-    List<Lotto> userLottos = Arrays.asList(
+    Lottos userLottos = new Lottos(Arrays.asList(
         new Lotto(List.of(1, 2, 3, 4, 5, 6)),
         new Lotto(List.of(1, 2, 3, 4, 5, 7)),
         new Lotto(List.of(1, 2, 3, 4, 7, 8)),
         new Lotto(List.of(1, 2, 3, 7, 8, 9))
-    );
+    ));
 
     WinningResult winningResult = lottoResultChecker.matchLottos(userLottos);
     long totalPrizeMoney = winningResult.calculateTotalPrize();
@@ -93,13 +94,13 @@ class LottoResultCheckerTest {
 
   @Test
   void 당첨_통계_출력_테스트() {
-    List<Lotto> userLottos = Arrays.asList(
+    Lottos userLottos = new Lottos(Arrays.asList(
         new Lotto(List.of(1, 2, 3, 4, 5, 6)),
         new Lotto(List.of(1, 2, 3, 4, 5, 7)),
         new Lotto(List.of(1, 2, 3, 4, 5, 8)),
         new Lotto(List.of(1, 2, 3, 4, 8, 9)),
         new Lotto(List.of(7, 8, 9, 10, 11, 12))
-    );
+    ));
 
     WinningResult winningResult = lottoResultChecker.matchLottos(userLottos);
     Map<Rank, Integer> result = winningResult.getWinningResult();
