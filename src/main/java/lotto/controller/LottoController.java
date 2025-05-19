@@ -13,6 +13,12 @@ public class LottoController {
   public void run() {
     final int payment = InputView.inputPayment();
 
+    final int manualLottoCount = InputView.inputManualLottoCount();
+
+    final List<Lotto> manualLottos = InputView.inputManualLottos(manualLottoCount);
+
+    lottoStore.mergeLottos(manualLottos);
+
     final List<Lotto> userLottos = lottoStore.generateLottosByPayment(payment);
 
     OutputView.printLottos(userLottos);

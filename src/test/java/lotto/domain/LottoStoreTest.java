@@ -17,6 +17,9 @@ class LottoStoreTest {
   @BeforeEach
   void setUp() {
     lottoStore = new LottoStore();
+    lottoStore.mergeLottos(List.of(
+        new Lotto(List.of(1,2,3,4,5,6))
+    ));
   }
 
   @Test

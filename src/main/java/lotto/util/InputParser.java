@@ -1,5 +1,6 @@
 package lotto.util;
 
+import lotto.domain.Lotto;
 import lotto.domain.LottoResult;
 
 import java.util.Arrays;
@@ -13,6 +14,17 @@ public class InputParser {
     validateInput(input);
 
     return new LottoResult(Arrays.stream(input.split(","))
+        .map(String::trim)
+        .mapToInt(Integer::parseInt)
+        .boxed()
+        .sorted()
+        .toList());
+  }
+
+  public static Lotto parseLotto(final String input) {
+    validateInput(input);
+
+    return new Lotto(Arrays.stream(input.split(","))
         .map(String::trim)
         .mapToInt(Integer::parseInt)
         .boxed()

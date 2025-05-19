@@ -10,6 +10,7 @@ public class LottoStore {
   private static final int MAX_LOTTO_NUMBER = 45;
   public static final int LOTTO_PRICE = 1000;
 
+  private final List<Lotto> lottos = new ArrayList<>();
   private final List<Integer> lottoNumbers;
 
   public LottoStore() {
@@ -22,15 +23,18 @@ public class LottoStore {
   public List<Lotto> generateLottosByPayment(int payment) {
     validatePayment(payment);
 
-    final List<Lotto> lottos = new ArrayList<>();
+    int totalAmount = payment / LOTTO_PRICE;
+    int remainingAmount = totalAmount - lottos.size();
 
-    int amount = payment / LOTTO_PRICE;
-
-    for (int i = 0; i < amount; i++) {
+    for (int i = 0; i < remainingAmount; i++) {
       lottos.add(generateLotto());
     }
 
     return lottos;
+  }
+
+  public void mergeLottos(List<Lotto> manualLottos) {
+    lottos.addAll(manualLottos);
   }
 
   private Lotto generateLotto() {
