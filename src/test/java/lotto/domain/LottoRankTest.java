@@ -6,6 +6,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class LottoRankTest {
@@ -21,17 +22,23 @@ class LottoRankTest {
       "6, FIRST"
   })
   void 일치하는_번호_개수에_따른_로또_등수_반환_테스트(int matchCount, Rank expectedRank) {
-    Rank actualRank = Rank.getRankByMatchCount(matchCount);
+    Rank actualRank = Rank.valueOf(matchCount);
 
     assertThat(actualRank).isEqualTo(expectedRank);
   }
 
   @ParameterizedTest
-  @ValueSource(ints = {-1, 7, 8, 10})
-  void 유효하지_않은_일치_개수는_MISS를_반환해야_함(int invalidMatchCount) {
-    Rank actualRank = Rank.getRankByMatchCount(invalidMatchCount);
+  @ValueSource(ints = {7, 8, 10, Integer.MAX_VALUE})
+  void 유효하지_않은_일치_개수는_NONE을_반환해야_함(int invalidMatchCount) {
+    Rank actualRank = Rank.valueOf(invalidMatchCount);
 
     assertThat(actualRank).isEqualTo(Rank.NONE);
+  }
+
+  @ParameterizedTest
+  @ValueSource(ints = {-1, -2, -3, -100, Integer.MIN_VALUE})
+  void 일치_개수가_음수라면_예외처리_되어야한다(int invalidMatchCount) {
+    assertThatThrownBy(() -> Rank.valueOf(invalidMatchCount)).isInstanceOf(RuntimeException.class);
   }
 
   @Test

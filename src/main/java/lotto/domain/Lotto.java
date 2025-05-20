@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Lotto {
 
@@ -11,17 +12,17 @@ public class Lotto {
 
   private final List<LottoNumber> numbers;
 
-  public Lotto(final List<Integer> numbers) {
+  public Lotto(final List<LottoNumber> numbers) {
     validateSize(numbers);
-    validateDuplicateNumbers(numbers);
+    validateNoDuplicates(numbers);
+    this.numbers = new ArrayList<>(numbers);
+  }
 
-    List<LottoNumber> lottoNumbers = new ArrayList<>();
+  public static Lotto of(final List<Integer> numbers) {
+    validateSize(numbers);
+    validateNoDuplicates(numbers);
 
-    for (Integer number : numbers) {
-      lottoNumbers.add(new LottoNumber(number));
-    }
-
-    this.numbers = new ArrayList<>(lottoNumbers);
+    return new Lotto(numbers.stream().map(LottoNumber::of).toList());
   }
 
   public String toString() {
@@ -32,23 +33,19 @@ public class Lotto {
     return numbers.size();
   }
 
-  public List<LottoNumber> getNumbers() {
+  public List<LottoNumber> numbers() {
     return new ArrayList<>(numbers);
   }
 
-  public boolean isContainBonusBall(final LottoNumber bonusBall) {
-    return numbers.contains(bonusBall);
-  }
-
-  private void validateSize(List<Integer> numbers) {
+  private static void validateSize(List<?> numbers) {
     if (numbers.size() != LOTTO_SIZE) {
       throw new IllegalArgumentException("로또 번호는 6개여야 합니다.");
     }
   }
 
-  private void validateDuplicateNumbers(List<Integer> numbers) {
-    Set<Integer> uniqueNumbers = new HashSet<>(numbers);
-    if (uniqueNumbers.size() != numbers.size()) {
+  private static <T> void validateNoDuplicates(List<T> items) {
+    Set<T> uniqueItems = new HashSet<>(items);
+    if (uniqueItems.size() != items.size()) {
       throw new IllegalArgumentException("로또 번호에 중복된 숫자가 있습니다.");
     }
   }

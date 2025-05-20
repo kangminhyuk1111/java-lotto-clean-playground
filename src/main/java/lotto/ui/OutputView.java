@@ -12,9 +12,15 @@ public class OutputView {
 
   public static void printLottos(final Lottos lottos) {
     System.out.println("\n" + lottos.size() + "개를 구매했습니다.");
+
+    StringBuilder sb = new StringBuilder();
+    sb.append("[");
     for (Lotto lotto : lottos) {
-      System.out.println(lotto.toString());
+      sb.append(lotto).append(", ");
     }
+    sb.append("]");
+
+    System.out.println(sb.toString());
   }
 
   public static void printResults(final WinningResult winningResult) {

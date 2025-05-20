@@ -17,7 +17,7 @@ class LottoTest {
   void 로또_번호_6개를_가지고_있는지_확인() {
     List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6);
 
-    Lotto lotto = new Lotto(numbers);
+    Lotto lotto = Lotto.of(numbers);
 
     assertThat(lotto.size()).isEqualTo(6);
   }
@@ -26,7 +26,7 @@ class LottoTest {
   void 로또_번호가_6개가_아닌_경우_예외_발생() {
     List<Integer> invalidNumbers = Arrays.asList(1, 2, 3, 4, 5);
 
-    assertThatThrownBy(() -> new Lotto(invalidNumbers))
+    assertThatThrownBy(() -> Lotto.of(invalidNumbers))
         .isInstanceOf(RuntimeException.class);
   }
 
@@ -34,7 +34,7 @@ class LottoTest {
   void 로또_번호에_중복된_숫자가_있는_경우_예외_발생() {
     List<Integer> duplicateNumbers = Arrays.asList(1, 2, 3, 4, 5, 5);
 
-    assertThatThrownBy(() -> new Lotto(duplicateNumbers))
+    assertThatThrownBy(() -> Lotto.of(duplicateNumbers))
         .isInstanceOf(RuntimeException.class);
   }
 
@@ -44,14 +44,14 @@ class LottoTest {
     List<Integer> numbers = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5));
     numbers.add(invalidNumber);
 
-    assertThatThrownBy(() -> new Lotto(numbers))
+    assertThatThrownBy(() -> Lotto.of(numbers))
         .isInstanceOf(RuntimeException.class);
   }
 
   @Test
   void numbers_메서드는_문자열_형태로_반환되어야_함() {
     List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6);
-    Lotto lotto = new Lotto(numbers);
+    Lotto lotto = Lotto.of(numbers);
 
     String result = lotto.toString();
 

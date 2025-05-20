@@ -13,7 +13,7 @@ public class InputParser {
   public static LottoResult parseLottoResult(final String input) {
     validateInput(input);
 
-    return new LottoResult(Arrays.stream(input.split(","))
+    return LottoResult.of(Arrays.stream(input.split(","))
         .map(String::trim)
         .mapToInt(Integer::parseInt)
         .boxed()
@@ -24,7 +24,7 @@ public class InputParser {
   public static Lotto parseLotto(final String input) {
     validateInput(input);
 
-    return new Lotto(Arrays.stream(input.split(","))
+    return Lotto.of(Arrays.stream(input.split(","))
         .map(String::trim)
         .mapToInt(Integer::parseInt)
         .boxed()

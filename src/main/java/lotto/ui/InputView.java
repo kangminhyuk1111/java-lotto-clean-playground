@@ -30,7 +30,7 @@ public class InputView {
 
   public static LottoNumber inputBonusBall() {
     System.out.println("보너스 볼을 입력해 주세요.");
-    return new LottoNumber(Integer.parseInt(sc.nextLine()));
+    return LottoNumber.of(Integer.parseInt(sc.nextLine()));
   }
 
   public static int inputManualLottoCount() {

@@ -1,40 +1,41 @@
 package lotto.domain;
 
-import java.util.Objects;
+import java.util.HashMap;
+import java.util.Map;
 
-public record LottoNumber(int number) {
+public class LottoNumber {
 
   private static final int MIN_LOTTO_NUMBER = 1;
   private static final int MAX_LOTTO_NUMBER = 45;
 
-  public LottoNumber {
+  private static final Map<Integer, LottoNumber> CACHE = new HashMap<>();
+
+  static {
+    for (int i = MIN_LOTTO_NUMBER; i <= MAX_LOTTO_NUMBER; i++) {
+      CACHE.put(i, new LottoNumber(i));
+    }
+  }
+
+  private final int number;
+
+  private LottoNumber(final int number) {
+    this.number = number;
+  }
+
+  public static LottoNumber of(final int number) {
     validateNumberRange(number);
+    return CACHE.get(number);
   }
 
-  private void validateNumberRange(int number) {
+  private static void validateNumberRange(final int number) {
     if (number < MIN_LOTTO_NUMBER || number > MAX_LOTTO_NUMBER) {
-      throw new IllegalArgumentException(
-          String.format("로또 번호는 %d부터 %d 사이의 숫자여야 합니다.",
-              MIN_LOTTO_NUMBER, MAX_LOTTO_NUMBER)
-      );
+      throw new IllegalArgumentException("로또 번호는 " + MIN_LOTTO_NUMBER + "부터 " +
+          MAX_LOTTO_NUMBER + " 사이의 숫자여야 합니다.");
     }
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    LottoNumber that = (LottoNumber) o;
-    return number == that.number;
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(number);
+  public int number() {
+    return number;
   }
 
   @Override

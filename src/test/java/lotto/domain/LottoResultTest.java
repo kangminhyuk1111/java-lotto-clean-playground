@@ -26,22 +26,22 @@ class LottoResultTest {
 
     for (int i = 1; i <= 6; i++) {
       inputNumbers.add(i);
-      expectedLottoNumbers.add(new LottoNumber(i));
+      expectedLottoNumbers.add(LottoNumber.of(i));
     }
   }
 
   @Test
   void 로또_결과_객체_생성_테스트() {
-    LottoResult lottoResult = new LottoResult(inputNumbers);
+    LottoResult lottoResult = LottoResult.of(inputNumbers);
 
-    assertThat(lottoResult.getNumbers()).containsExactlyElementsOf(expectedLottoNumbers);
+    assertThat(lottoResult.numbers()).containsExactlyElementsOf(expectedLottoNumbers);
   }
 
   @Test
   void 로또_결과_숫자값_비교_테스트() {
-    LottoResult lottoResult = new LottoResult(inputNumbers);
+    LottoResult lottoResult = LottoResult.of(inputNumbers);
 
-    List<Integer> actualNumbers = lottoResult.getNumbers().stream()
+    List<Integer> actualNumbers = lottoResult.numbers().stream()
         .map(LottoNumber::number)
         .collect(Collectors.toList());
 
@@ -50,9 +50,10 @@ class LottoResultTest {
 
   @ParameterizedTest
   @MethodSource("provideMatchCountTestData")
-  void 일치하는_번호_개수_계산_테스트(List<Integer> winningNumbers, List<Integer> userNumbers, int expectedMatchCount) {
-    LottoResult lottoResult = new LottoResult(winningNumbers);
-    Lotto userLotto = new Lotto(userNumbers);
+  void 일치하는_번호_개수_계산_테스트(List<Integer> winningNumbers, List<Integer> userNumbers,
+      int expectedMatchCount) {
+    LottoResult lottoResult = LottoResult.of(winningNumbers);
+    Lotto userLotto = Lotto.of(userNumbers);
 
     int actualMatchCount = lottoResult.matchCount(userLotto);
 
@@ -64,8 +65,8 @@ class LottoResultTest {
     List<Integer> winningNumbers = Arrays.asList(1, 2, 3, 4, 5, 6);
     List<Integer> userNumbers = Arrays.asList(6, 5, 4, 3, 2, 1);
 
-    LottoResult lottoResult = new LottoResult(winningNumbers);
-    Lotto userLotto = new Lotto(userNumbers);
+    LottoResult lottoResult = LottoResult.of(winningNumbers);
+    Lotto userLotto = Lotto.of(userNumbers);
 
     int matchCount = lottoResult.matchCount(userLotto);
 
@@ -77,8 +78,8 @@ class LottoResultTest {
     List<Integer> winningNumbers = Arrays.asList(1, 2, 3, 4, 5, 6);
     List<Integer> userNumbers = Arrays.asList(7, 8, 9, 10, 11, 12);
 
-    LottoResult lottoResult = new LottoResult(winningNumbers);
-    Lotto userLotto = new Lotto(userNumbers);
+    LottoResult lottoResult = LottoResult.of(winningNumbers);
+    Lotto userLotto = Lotto.of(userNumbers);
 
     int matchCount = lottoResult.matchCount(userLotto);
 

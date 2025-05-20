@@ -4,8 +4,6 @@ import lotto.domain.*;
 import lotto.ui.InputView;
 import lotto.ui.OutputView;
 
-import java.util.List;
-
 public class LottoController {
 
   private final LottoStore lottoStore = new LottoStore();
@@ -17,9 +15,7 @@ public class LottoController {
 
     final Lottos manualLottos = InputView.inputManualLottos(manualLottoCount);
 
-    lottoStore.mergeLottos(manualLottos);
-
-    final Lottos userLottos = lottoStore.generateLottosByPayment(payment);
+    final Lottos userLottos = lottoStore.generateLottosWithManualLottos(manualLottos, payment);
 
     OutputView.printLottos(userLottos);
 

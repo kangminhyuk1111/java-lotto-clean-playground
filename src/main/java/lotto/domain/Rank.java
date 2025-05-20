@@ -35,18 +35,36 @@ public enum Rank {
     return this.prizeMoney;
   }
 
-  public static Rank getRankByMatchCount(int matchCount, boolean bonusMatch) {
-    if (matchCount == 5 && bonusMatch) {
-      return SECOND;
+  public static Rank valueOf(int matchCount, boolean bonusMatch) {
+    validateMatchCount(matchCount);
+
+    if (matchCount == 6) {
+      return FIRST;
     }
-    return getRankByMatchCount(matchCount);
+    if (matchCount == 5) {
+      return bonusMatch ? SECOND : THIRD;
+    }
+    if (matchCount == 4) {
+      return FOURTH;
+    }
+    if (matchCount == 3) {
+      return FIFTH;
+    }
+    return NONE;
+  }
+
+  public static Rank valueOf(int matchCount) {
+    validateMatchCount(matchCount);
+    return MATCH_COUNT_TO_RANK.getOrDefault(matchCount, NONE);
   }
 
   public boolean isBonusMatch() {
     return this.bonusMatch;
   }
 
-  public static Rank getRankByMatchCount(int matchCount) {
-    return MATCH_COUNT_TO_RANK.getOrDefault(matchCount, NONE);
+  private static void validateMatchCount(final int matchCount) {
+    if (matchCount < 0) {
+      throw new RuntimeException("적중 갯수는 음수가 될 수 없습니다.");
+    }
   }
 }

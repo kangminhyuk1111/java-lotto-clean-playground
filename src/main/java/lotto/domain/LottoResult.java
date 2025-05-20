@@ -6,13 +6,17 @@ import java.util.Set;
 
 public class LottoResult extends Lotto {
 
-  public LottoResult(final List<Integer> numbers) {
+  public LottoResult(final List<LottoNumber> numbers) {
     super(numbers);
   }
 
-  public int matchCount(Lotto userLotto) {
-    List<LottoNumber> winningNumbers = this.getNumbers();
-    List<LottoNumber> userNumbers = userLotto.getNumbers();
+  public static LottoResult of(final List<Integer> numbers) {
+    return new LottoResult(numbers.stream().map(LottoNumber::of).toList());
+  }
+
+  public int matchCount(final Lotto userLotto) {
+    List<LottoNumber> winningNumbers = this.numbers();
+    List<LottoNumber> userNumbers = userLotto.numbers();
 
     Set<LottoNumber> winningNumbersSet = new HashSet<>(winningNumbers);
 

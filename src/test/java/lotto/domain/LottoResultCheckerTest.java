@@ -14,8 +14,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class LottoResultCheckerTest {
 
-  private final LottoResult lottoResult = new LottoResult(List.of(1, 2, 3, 4, 5, 6));
-  private final LottoNumber bonusBall = new LottoNumber(7);
+  private final LottoResult lottoResult = LottoResult.of(List.of(1, 2, 3, 4, 5, 6));
+  private final LottoNumber bonusBall = LottoNumber.of(7);
   private final LottoResultChecker lottoResultChecker = new LottoResultChecker(lottoResult,
       bonusBall);
 
@@ -54,22 +54,22 @@ class LottoResultCheckerTest {
 
     return Stream.of(
         Arguments.of(
-            new Lottos(List.of(new Lotto(List.of(1, 2, 3, 4, 5, 6)))),
+            new Lottos(List.of(Lotto.of(List.of(1, 2, 3, 4, 5, 6)))),
             case1
         ),
         Arguments.of(
             new Lottos(List.of(
-                new Lotto(List.of(1, 2, 3, 4, 5, 6)),
-                new Lotto(List.of(1, 2, 3, 4, 5, 7)),
-                new Lotto(List.of(1, 2, 3, 4, 7, 8)),
-                new Lotto(List.of(1, 2, 3, 7, 8, 9))
+                Lotto.of(List.of(1, 2, 3, 4, 5, 6)),
+                Lotto.of(List.of(1, 2, 3, 4, 5, 7)),
+                Lotto.of(List.of(1, 2, 3, 4, 7, 8)),
+                Lotto.of(List.of(1, 2, 3, 7, 8, 9))
             )),
             case2
         ),
         Arguments.of(
             new Lottos(List.of(
-                new Lotto(List.of(7, 8, 9, 10, 11, 12)),
-                new Lotto(List.of(13, 14, 15, 16, 17, 18))
+                Lotto.of(List.of(7, 8, 9, 10, 11, 12)),
+                Lotto.of(List.of(13, 14, 15, 16, 17, 18))
             )),
             case3
         )
@@ -79,10 +79,10 @@ class LottoResultCheckerTest {
   @Test
   void 당첨_금액_계산_테스트() {
     Lottos userLottos = new Lottos(Arrays.asList(
-        new Lotto(List.of(1, 2, 3, 4, 5, 6)),
-        new Lotto(List.of(1, 2, 3, 4, 5, 7)),
-        new Lotto(List.of(1, 2, 3, 4, 7, 8)),
-        new Lotto(List.of(1, 2, 3, 7, 8, 9))
+        Lotto.of(List.of(1, 2, 3, 4, 5, 6)),
+        Lotto.of(List.of(1, 2, 3, 4, 5, 7)),
+        Lotto.of(List.of(1, 2, 3, 4, 7, 8)),
+        Lotto.of(List.of(1, 2, 3, 7, 8, 9))
     ));
 
     WinningResult winningResult = lottoResultChecker.matchLottos(userLottos);
@@ -95,11 +95,11 @@ class LottoResultCheckerTest {
   @Test
   void 당첨_통계_출력_테스트() {
     Lottos userLottos = new Lottos(Arrays.asList(
-        new Lotto(List.of(1, 2, 3, 4, 5, 6)),
-        new Lotto(List.of(1, 2, 3, 4, 5, 7)),
-        new Lotto(List.of(1, 2, 3, 4, 5, 8)),
-        new Lotto(List.of(1, 2, 3, 4, 8, 9)),
-        new Lotto(List.of(7, 8, 9, 10, 11, 12))
+        Lotto.of(List.of(1, 2, 3, 4, 5, 6)),
+        Lotto.of(List.of(1, 2, 3, 4, 5, 7)),
+        Lotto.of(List.of(1, 2, 3, 4, 5, 8)),
+        Lotto.of(List.of(1, 2, 3, 4, 8, 9)),
+        Lotto.of(List.of(7, 8, 9, 10, 11, 12))
     ));
 
     WinningResult winningResult = lottoResultChecker.matchLottos(userLottos);

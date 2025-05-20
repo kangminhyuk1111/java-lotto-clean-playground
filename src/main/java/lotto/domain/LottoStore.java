@@ -2,49 +2,49 @@ package lotto.domain;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class LottoStore {
 
   private static final int LOTTO_LENGTH = 6;
+  private static final int MIN_LOTTO_NUMBER = 1;
   private static final int MAX_LOTTO_NUMBER = 45;
   public static final int LOTTO_PRICE = 1000;
 
-  private final Lottos lottos = new Lottos(new ArrayList<>());
-  private final List<Integer> lottoNumbers;
+  private final List<LottoNumber> lottoNumberPool;
 
   public LottoStore() {
-    this.lottoNumbers = new ArrayList<>();
-    for (int i = 1; i <= MAX_LOTTO_NUMBER; i++) {
-      lottoNumbers.add(i);
+    this.lottoNumberPool = new ArrayList<>();
+    for (int i = MIN_LOTTO_NUMBER; i <= MAX_LOTTO_NUMBER; i++) {
+      lottoNumberPool.add(LottoNumber.of(i));
     }
   }
 
-  public Lottos generateLottosByPayment(int payment) {
+  public Lottos generateLottosWithManualLottos(final Lottos manualLottos, final int payment) {
     validatePayment(payment);
 
-    int totalAmount = payment / LOTTO_PRICE;
-    int remainingAmount = totalAmount - lottos.size();
+    int autoLottoCount = payment / LOTTO_PRICE;
+    List<Lotto> combinedLottos = new ArrayList<>(manualLottos.lottos());
 
-    for (int i = 0; i < remainingAmount; i++) {
-      lottos.add(generateLotto());
+    for (int i = 0; i < autoLottoCount - manualLottos.size(); i++) {
+      combinedLottos.add(generateLotto());
     }
 
-    return lottos;
-  }
-
-  public void mergeLottos(Lottos manualLottos) {
-    lottos.addAll(manualLottos);
+    return new Lottos(combinedLottos);
   }
 
   private Lotto generateLotto() {
-    Collections.shuffle(lottoNumbers);
+    List<LottoNumber> numberPool = new ArrayList<>(lottoNumberPool);
 
-    List<Integer> selectedNumbers = new ArrayList<>(lottoNumbers.subList(0, LOTTO_LENGTH));
+    Collections.shuffle(numberPool);
 
-    Collections.sort(selectedNumbers);
+    List<LottoNumber> selectedNumbers = numberPool.subList(0, LOTTO_LENGTH);
 
-    return new Lotto(selectedNumbers);
+    List<LottoNumber> sortedNumbers = new ArrayList<>(selectedNumbers);
+    sortedNumbers.sort(Comparator.comparing(LottoNumber::number));
+
+    return new Lotto(sortedNumbers);
   }
 
   private void validatePayment(int payment) {

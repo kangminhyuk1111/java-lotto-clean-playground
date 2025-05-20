@@ -1,5 +1,7 @@
 package lotto.domain;
 
+import java.util.EnumMap;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -12,13 +14,22 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class WinningResultTest {
 
+  private Map<Rank, Integer> rankStats;
+
+  @BeforeEach
+  void setUp() {
+    rankStats = new EnumMap<>(Rank.class);
+
+    for (Rank rank : Rank.values()) {
+      rankStats.put(rank, 0);
+    }
+  }
+
   @Test
   void 빈_당첨_결과_생성시_모든_등수가_0으로_초기화된다() {
-    WinningResult winningResult = new WinningResult();
+    WinningResult winningResult = new WinningResult(rankStats);
     Map<Rank, Integer> result = winningResult.getWinningResult();
 
-    assertThat(result.get(Rank.NONE)).isEqualTo(0);
-    assertThat(result.get(Rank.NONE)).isEqualTo(0);
     assertThat(result.get(Rank.NONE)).isEqualTo(0);
     assertThat(result.get(Rank.FOURTH)).isEqualTo(0);
     assertThat(result.get(Rank.THIRD)).isEqualTo(0);
@@ -28,15 +39,11 @@ class WinningResultTest {
 
   @Test
   void 일치_개수_추가시_해당_등수의_카운트가_증가한다() {
-    WinningResult winningResult = new WinningResult();
-
-    winningResult.addRank(Rank.getRankByMatchCount(3));
-    winningResult.addRank(Rank.getRankByMatchCount(3));
-    winningResult.addRank(Rank.getRankByMatchCount(6));
+    rankStats.put(Rank.FIFTH, 2);
+    rankStats.put(Rank.FIRST, 1);
+    WinningResult winningResult = new WinningResult(rankStats);
 
     Map<Rank, Integer> result = winningResult.getWinningResult();
-
-    System.out.println(result);
 
     assertThat(result.get(Rank.FIFTH)).isEqualTo(2);
     assertThat(result.get(Rank.FIRST)).isEqualTo(1);
@@ -45,11 +52,12 @@ class WinningResultTest {
   @ParameterizedTest
   @MethodSource("provideMatchCountsAndTotalPrize")
   void 총_상금_계산_테스트(int[] matchCounts, long expectedTotalPrize) {
-    WinningResult winningResult = new WinningResult();
-
     for (int matchCount : matchCounts) {
-      winningResult.addRank(Rank.getRankByMatchCount(matchCount));
+      final Rank rank = Rank.valueOf(matchCount);
+      rankStats.put(rank, rankStats.getOrDefault(rank, 0) + 1);
     }
+
+    WinningResult winningResult = new WinningResult(rankStats);
 
     long actualTotalPrize = winningResult.calculateTotalPrize();
 
@@ -76,17 +84,15 @@ class WinningResultTest {
 
   @Test
   void 특정_등수_카운트_조회_테스트() {
-    WinningResult winningResult = new WinningResult();
-
-    winningResult.addRank(Rank.getRankByMatchCount(3));
-    winningResult.addRank(Rank.getRankByMatchCount(3));
-    winningResult.addRank(Rank.getRankByMatchCount(4));
-    winningResult.addRank(Rank.getRankByMatchCount(6));
+    rankStats.put(Rank.FIFTH, 2);
+    rankStats.put(Rank.FOURTH, 2);
+    rankStats.put(Rank.FIRST, 1);
+    WinningResult winningResult = new WinningResult(rankStats);
 
     Map<Rank, Integer> result = winningResult.getWinningResult();
 
     assertThat(result.get(Rank.FIFTH)).isEqualTo(2);
-    assertThat(result.get(Rank.FOURTH)).isEqualTo(1);
+    assertThat(result.get(Rank.FOURTH)).isEqualTo(2);
     assertThat(result.get(Rank.THIRD)).isEqualTo(0);
     assertThat(result.get(Rank.SECOND)).isEqualTo(0);
     assertThat(result.get(Rank.FIRST)).isEqualTo(1);
@@ -97,7 +103,7 @@ class WinningResultTest {
 
   @Test
   void 모든_등급_통계를_포함하는지_테스트() {
-    WinningResult winningResult = new WinningResult();
+    WinningResult winningResult = new WinningResult(rankStats);
 
     Map<Rank, Integer> result = winningResult.getWinningResult();
 

@@ -30,4 +30,9 @@ public record Lottos(List<Lotto> lottos) implements Iterable<Lotto> {
   public Iterator<Lotto> iterator() {
     return lottos.iterator();
   }
+
+  @Override
+  public List<Lotto> lottos() {
+    return lottos;
+  }
 }
