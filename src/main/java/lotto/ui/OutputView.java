@@ -3,6 +3,7 @@ package lotto.ui;
 import java.util.Map.Entry;
 import lotto.domain.Lotto;
 import lotto.domain.Lottos;
+import lotto.domain.Payment;
 import lotto.domain.Rank;
 import lotto.domain.WinningResult;
 
@@ -45,7 +46,7 @@ public class OutputView {
     }
   }
 
-  public static void printPrize(final WinningResult winningResult, final int payment) {
-    System.out.printf("총 수익율은 %.2f 입니다.", winningResult.calculateReturnRate(payment));
+  public static void printPrize(final WinningResult winningResult, final Payment payment) {
+    System.out.printf("총 수익율은 %.2f 입니다.", winningResult.calculateReturnRate(payment.value()));
   }
 }

@@ -18,9 +18,9 @@ public class InputView {
 
   }
 
-  public static int inputPayment() {
+  public static Long inputPayment() {
     System.out.println("구입금액을 입력해 주세요.");
-    return Integer.parseInt(sc.nextLine());
+    return Long.parseLong(sc.nextLine());
   }
 
   public static LottoResult inputLottoResult() {
@@ -38,19 +38,19 @@ public class InputView {
     return Integer.parseInt(sc.nextLine());
   }
 
-  public static Lottos inputManualLottos(final int manualLottoCount) {
-    final Lottos lottos = new Lottos(new ArrayList<>());
+  public static List<String> inputManualLottoStrings(final int manualLottoCount) {
+    final List<String> lottoInputs = new ArrayList<>();
 
     if (manualLottoCount == 0) {
-      return lottos;
+      return lottoInputs;
     }
 
     System.out.println("수동으로 구매할 번호를 입력해 주세요.");
 
     for (int i = 0; i < manualLottoCount; i++) {
-      lottos.add(InputParser.parseLotto(sc.nextLine()));
+      lottoInputs.add(sc.nextLine());
     }
 
-    return lottos;
+    return lottoInputs;
   }
 }

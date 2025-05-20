@@ -15,7 +15,7 @@ public class WinningResult {
     return new EnumMap<>(rankStats);
   }
 
-  public double calculateReturnRate(int totalPurchaseAmount) {
+  public double calculateReturnRate(Long totalPurchaseAmount) {
     return (double) calculateTotalPrize() / totalPurchaseAmount;
   }
 

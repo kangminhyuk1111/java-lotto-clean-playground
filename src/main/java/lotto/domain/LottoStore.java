@@ -10,7 +10,7 @@ public class LottoStore {
   private static final int LOTTO_LENGTH = 6;
   private static final int MIN_LOTTO_NUMBER = 1;
   private static final int MAX_LOTTO_NUMBER = 45;
-  public static final int LOTTO_PRICE = 1000;
+  private static final int LOTTO_PRICE = 1000;
 
   private final List<LottoNumber> lottoNumberPool;
 
@@ -21,10 +21,8 @@ public class LottoStore {
     }
   }
 
-  public Lottos generateLottosWithManualLottos(final Lottos manualLottos, final int payment) {
-    validatePayment(payment);
-
-    int autoLottoCount = payment / LOTTO_PRICE;
+  public Lottos generateLottosWithManualLottos(final Lottos manualLottos, final Payment payment) {
+    long autoLottoCount = payment.value() / LOTTO_PRICE;
     List<Lotto> combinedLottos = new ArrayList<>(manualLottos.lottos());
 
     for (int i = 0; i < autoLottoCount - manualLottos.size(); i++) {
@@ -45,11 +43,5 @@ public class LottoStore {
     sortedNumbers.sort(Comparator.comparing(LottoNumber::number));
 
     return new Lotto(sortedNumbers);
-  }
-
-  private void validatePayment(int payment) {
-    if (payment < LOTTO_PRICE) {
-      throw new RuntimeException("로또 구매 금액은 최소 1000원 이상입니다.");
-    }
   }
 }
