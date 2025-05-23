@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class Lotto {
 
@@ -19,9 +18,6 @@ public class Lotto {
   }
 
   public static Lotto of(final List<Integer> numbers) {
-    validateSize(numbers);
-    validateNoDuplicates(numbers);
-
     return new Lotto(numbers.stream().map(LottoNumber::of).toList());
   }
 
@@ -43,8 +39,8 @@ public class Lotto {
     }
   }
 
-  private static <T> void validateNoDuplicates(List<T> items) {
-    Set<T> uniqueItems = new HashSet<>(items);
+  private static void validateNoDuplicates(List<LottoNumber> items) {
+    Set<LottoNumber> uniqueItems = new HashSet<>(items);
     if (uniqueItems.size() != items.size()) {
       throw new IllegalArgumentException("로또 번호에 중복된 숫자가 있습니다.");
     }
